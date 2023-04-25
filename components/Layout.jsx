@@ -1,5 +1,7 @@
 // import { Tajawal } from "next/font/google";
 import Head from "next/head";
+import Header from "./Header";
+import Footer from "./Footer";
 
 // const tajawal = Tajawal({ subsets: ["latin"] });
 // className={tajawal.className}
@@ -13,10 +15,10 @@ const Layout = ({ title, children }) => {
         <meta name="description" content="E-Commerce website for  developers" />
         <link rel="icon" href="favicon.ico" />
       </Head>
-      <main>
-        <header>Header</header>
-        <main>{children}</main>
-        <footer>Footer</footer>
+      <main className="flex min-h-screen flex-col justify-between ">
+        <Header />
+        <main className="container m-auto mt-4 px-4">{children}</main>
+        <Footer />
       </main>
     </>
   );
