@@ -8,7 +8,8 @@ const Header = () => {
   const { cart } = state;
 
   useEffect(() => {
-    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
+    const itemsArray = Array.isArray(cart.cartItems) ? cart.cartItems : [];
+    setCartItemsCount(itemsArray.reduce((a, c) => a + c.quantity, 0));
   }, [cart.cartItems]);
 
   return (
@@ -22,7 +23,7 @@ const Header = () => {
           <Link href={"/cart"} className="px-2 font-bold">
             Cart
             <span>
-              {cart.cartItems && cart.cartItems.length > 0 && (
+              {cartItemsCount > 0 && (
                 <span className="ml-1 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
                   {cartItemsCount}
                 </span>

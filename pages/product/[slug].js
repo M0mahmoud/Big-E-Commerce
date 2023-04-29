@@ -17,7 +17,6 @@ const ProductScreen = () => {
   }
 
   const addToCartHandler = () => {
-    console.log("ADDING");
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = existItem ? existItem.quantity + 1 : 1;
 
@@ -25,7 +24,6 @@ const ProductScreen = () => {
       alert("Sorry. Product is out of stock");
       return;
     }
-    console.log({ ...product, quantity });
     dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
     // push("/cart");
   };

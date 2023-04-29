@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import { store } from "@/store/store";
+import dynamic from "next/dynamic";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -115,4 +116,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default dynamic(() => Promise.resolve(Cart), { ssr: false });
