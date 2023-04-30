@@ -1,10 +1,9 @@
-// import { Tajawal } from "next/font/google";
 import Head from "next/head";
-import Header from "./Header";
+import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
+import Header from "./Header";
 
-// const tajawal = Tajawal({ subsets: ["latin"] });
-// className={tajawal.className}
+import "react-toastify/dist/ReactToastify.css";
 
 const Layout = ({ title, children }) => {
   return (
@@ -15,6 +14,7 @@ const Layout = ({ title, children }) => {
         <meta name="description" content="E-Commerce website for  developers" />
         <link rel="icon" href="favicon.ico" />
       </Head>
+      <ToastContainer position="top-right" limit={1} />
       <main className="flex min-h-screen flex-col justify-between ">
         <Header />
         <main className="container m-auto mt-4 px-4">{children}</main>

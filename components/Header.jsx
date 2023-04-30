@@ -1,9 +1,11 @@
 import { store } from "@/store/store";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 
 const Header = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  const { status, data: session } = useSession();
   const { state } = useContext(store);
   const { cart } = state;
 
@@ -30,9 +32,15 @@ const Header = () => {
               )}
             </span>
           </Link>
-          <Link href={"/login"} className="px-2 font-bold">
-            Login
-          </Link>
+          {status === "loading" ? (
+            "Loading"
+          ) : session?.user ? (
+            session.user.name
+          ) : (
+            <Link href="/login" className="p-2">
+              Login
+            </Link>
+          )}
         </div>
       </nav>
     </header>
