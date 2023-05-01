@@ -40,6 +40,15 @@ const reducer = (state, action) => {
       });
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+    case 'CART_RESET':
+      return {
+        ...state,
+        cart: {
+          cartItems: [],
+          shippingAddress: { location: {} },
+          paymentMethod: '',
+        },
+      };
     default:
       return state;
   }
