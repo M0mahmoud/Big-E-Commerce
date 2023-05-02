@@ -49,7 +49,7 @@ const LoginPage = () => {
       >
         <h1 className="mb-4 text-xl">Login</h1>
         <div className="mb-4">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email12">Email</label>
           <input
             {...register("email", {
               required: "Enter Email",
@@ -60,7 +60,7 @@ const LoginPage = () => {
             })}
             type="email"
             className="w-full"
-            id="email"
+            id="email12"
             autoFocus
           />
           {errors.email && (
@@ -68,7 +68,7 @@ const LoginPage = () => {
           )}
         </div>
         <div className="mb-4">
-          <label htmlFor="pass">Password</label>
+          <label htmlFor="pass21">Password</label>
           <input
             {...register("password", {
               required: "Enter Password",
@@ -76,7 +76,7 @@ const LoginPage = () => {
             })}
             type="password"
             className="w-full"
-            id="pass"
+            id="pass21"
             autoFocus
           />
           {errors.password && (

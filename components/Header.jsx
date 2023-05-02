@@ -72,13 +72,13 @@ const Header = () => {
                     </DropdownLink>
                   </Menu.Item>
                   <Menu.Item>
-                    <a
+                    <Link
                       className="dropdown-link"
-                      href="#"
+                      href="/"
                       onClick={logoutHandler}
                     >
                       Logout
-                    </a>
+                    </Link>
                   </Menu.Item>
                 </Menu.Items>
               </Transition>
