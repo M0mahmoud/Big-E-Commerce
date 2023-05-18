@@ -27,13 +27,6 @@ const Shipping = () => {
   }, [shippingAddress, setValue]);
 
   const onSubmit = ({ fullName, address, city, postalCode, country }) => {
-    console.log("{ fullName, address, city, postalCode, country }:", {
-      fullName,
-      address,
-      city,
-      postalCode,
-      country,
-    });
     dispatch({
       type: "SAVE_SHIPPING_ADDRESS",
       payload: { fullName, address, city, postalCode, country },

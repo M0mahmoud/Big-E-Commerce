@@ -9,10 +9,10 @@ import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const { data: sessionData } = useSession();
-  console.log("sessionData:", sessionData);
+  
   const router = useRouter();
   const { redirect } = router.query;
-  console.log("redirect:", redirect);
+  
 
   const {
     handleSubmit,

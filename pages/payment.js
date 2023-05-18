@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 const Payment = () => {
   const [selectedPayment, setSelectedPayment] = useState("");
-  console.log("selectedPayment:", selectedPayment);
   const router = useRouter();
   const { state, dispatch } = useContext(store);
   const { cart } = state;
@@ -74,4 +73,5 @@ const Payment = () => {
   );
 };
 
+Payment.auth = true;
 export default Payment;

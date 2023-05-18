@@ -29,7 +29,7 @@ const ProductScreen = ({ oneProduct }) => {
 
     const { data } = await axios.get(`/api/products/${oneProduct._id}`);
 
-    console.log("data:", data);
+    
     if (data.countInStock < quantity) {
       return toast.error("Sorry. Product is out of stock");
     }
