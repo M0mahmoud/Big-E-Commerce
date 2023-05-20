@@ -22,7 +22,7 @@ export default function App({
   );
 }
 
-const Auth = ({ children }) => {
+function Auth({ children }) {
   const router = useRouter();
   const { status } = useSession({
     required: true,
@@ -36,4 +36,4 @@ const Auth = ({ children }) => {
   }
 
   return children;
-};
+}

@@ -12,8 +12,6 @@ const LoginPage = () => {
   
   const router = useRouter();
   const { redirect } = router.query;
-  
-
   const {
     handleSubmit,
     register,
