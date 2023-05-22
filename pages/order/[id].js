@@ -1,30 +1,18 @@
 import Layout from "@/components/Layout";
 import { getError } from "@/utils/error";
+import { reducer } from "@/utils/helper";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useReducer } from "react";
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "FETCH_REQUEST":
-      return { ...state, loading: true, error: "" };
-    case "FETCH_SUCCESS":
-      return { ...state, loading: false, order: action.payload, error: "" };
-    case "FETCH_FAIL":
-      return { ...state, loading: false, error: action.payload };
-    default:
-      state;
-  }
-}
-
 const OneOrder = () => {
   const { query } = useRouter();
   const orderId = query.id;
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, data: order }, dispatch] = useReducer(reducer, {
     loading: true,
-    order: {},
+    data: {},
     error: "",
   });
 

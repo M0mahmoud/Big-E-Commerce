@@ -1,3 +1,4 @@
+import AdminLinks from "@/components/AdminLinks";
 import Layout from "@/components/Layout";
 import {
   BarElement,
@@ -38,30 +39,7 @@ const Dashboard = () => {
   return (
     <Layout title="Admin Dashboard">
       <div className="grid md:grid-cols-4 md:gap-5">
-        <div>
-          <ul>
-            <li>
-              <Link href={"/admin/dashboard"} className="font-bold">
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link href={"/admin/orders"} className="font-bold">
-                Orders
-              </Link>
-            </li>
-            <li>
-              <Link href={"/admin/products"} className="font-bold">
-                Products
-              </Link>
-            </li>
-            <li>
-              <Link href={"/admin/users"} className="font-bold">
-                Users
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <AdminLinks />
         <div className="md:col-span-3">
           <h1 className="mb-4 text-xl">Admin Dashboard</h1>
           {/* ADD LOADIN & ERROR */}
