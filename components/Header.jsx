@@ -71,6 +71,16 @@ const Header = () => {
                       Order History
                     </DropdownLink>
                   </Menu.Item>
+                  <>
+                    {session?.user.isAdmin && (
+                      <Menu.Item
+                        className="dropdown-link"
+                        href="/admin/dashboard"
+                      >
+                        <DropdownLink>Admin Dashboard</DropdownLink>
+                      </Menu.Item>
+                    )}
+                  </>
                   <Menu.Item>
                     <Link
                       className="dropdown-link"
