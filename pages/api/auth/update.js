@@ -1,19 +1,18 @@
 import User from "@/models/User";
 import db from "@/utils/db";
 import bcryptjs from "bcryptjs";
-import { getSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 async function handler(req, res) {
   if (req.method !== "PUT") {
     return res.status(400).send({ message: `${req.method} not supported` });
   }
 
-  const session = await getSession({ req });
-  if (!session) {
+  const user = await getToken({ req });
+  if (!user) {
     return res.status(401).send({ message: "signin required" });
   }
 
-  const { user } = session;
   const { name, email, password } = req.body;
 
   if (
@@ -30,6 +29,7 @@ async function handler(req, res) {
 
   await db.connect();
   const toUpdateUser = await User.findById(user._id);
+  console.log("---------toUpdateUser=========:", toUpdateUser);
   toUpdateUser.name = name;
   toUpdateUser.email = email;
 

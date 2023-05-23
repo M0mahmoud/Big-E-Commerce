@@ -65,7 +65,7 @@ const ProductsPage = () => {
                       <td className=" p-5 ">
                         <Link
                           className="primary-button"
-                          href={`/admin/product/${product._id}`}
+                          href={`/admin/products/${product._id}`}
                         >
                           Edit
                         </Link>
