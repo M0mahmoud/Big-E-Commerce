@@ -29,7 +29,6 @@ async function handler(req, res) {
 
   await db.connect();
   const toUpdateUser = await User.findById(user._id);
-  console.log("---------toUpdateUser=========:", toUpdateUser);
   toUpdateUser.name = name;
   toUpdateUser.email = email;
 

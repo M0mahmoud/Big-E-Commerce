@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
-  console.log("------session:--------", session)
   const {
     handleSubmit,
     register,

@@ -1,13 +1,12 @@
 import Product from "@/models/Product";
 import db from "@/utils/db";
+import { getToken } from "next-auth/jwt";
 
-const { getSession } = require("next-auth/react");
 
 const handler = async (req, res) => {
-  const session = await getSession({ req });
-  console.log("------session Products-----:", session)
+  const user = await getToken({ req });
 
-  if (!session || !session?.user.isAdmin) {
+  if (!user || !user?.isAdmin) {
     return res.status(401).send("Admin Signin Required");
   }
 
