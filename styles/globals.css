@@ -27,7 +27,6 @@ textarea {
   @apply flex p-2 hover:bg-gray-200;
 }
 
-
 .alert-error {
   @apply my-3 rounded-lg bg-red-100 p-3 text-red-700;
 }
@@ -38,4 +37,16 @@ textarea {
 
 a {
   @apply text-blue-600 hover:text-blue-800;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: white;
+  border: 0;
+  outline: 0;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(243 244 246);
 }

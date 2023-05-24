@@ -288,7 +288,7 @@ const EditProduct = () => {
               </div>
 
               <div className="mb-4">
-                <button disabled={loadingUpdate} className="primary-button">
+                <button disabled={loadingUpload } className="primary-button">
                   {loadingUpdate ? "Loading" : "Update"}
                 </button>
               </div>
