@@ -3,11 +3,15 @@ import { Menu, Transition } from "@headlessui/react";
 import Cookies from "js-cookie";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import DropdownLink from "./DropdownLink";
 
 const Header = () => {
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  const [query, setQuery] = useState("");
+  const router = useRouter();
+
   const { status, data: session } = useSession();
   const { state, dispatch } = useContext(store);
   const { cart } = state;
@@ -23,14 +27,51 @@ const Header = () => {
     signOut({ callbackUrl: "/login" });
   };
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    router.push(`/search?query=${query}`);
+  };
+
   return (
     <header>
       <nav className="flex h-12 justify-between items-center px-4 shadow-md">
         <Link href={"/"} className="text-lg font-bold">
-          E-Commerce
+          Shop
         </Link>
 
-        <div>
+        <form
+          onSubmit={submitHandler}
+          className="mx-auto  hidden w-full justify-center md:flex"
+        >
+          <input
+            onChange={(e) => setQuery(e.target.value)}
+            type="text"
+            className="rounded-tr-none rounded-br-none p-1 text-sm focus:ring-0"
+            placeholder="Search..."
+          />
+          <button
+            className="rounded rounded-tl-none rounded-bl-none bg-amber-300 p-1 text-sm dark:text-black"
+            type="submit"
+            id="searchBtn"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </button>
+        </form>
+
+        <div className="flex gap-1">
           <Link href={"/cart"} className="px-2 font-bold">
             Cart
             <span>
