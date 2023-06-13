@@ -1,11 +1,12 @@
 import AdminLinks from "@/components/AdminLinks";
+import InputField from "@/components/InputField";
 import Layout from "@/components/Layout";
 import { getError } from "@/utils/error";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useReducer } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 function reducer(state, action) {
@@ -50,12 +51,13 @@ const EditProduct = () => {
       error: "",
     });
 
+  const methods = useForm();
   const {
-    register,
     handleSubmit,
-    formState: { errors },
     setValue,
-  } = useForm();
+
+    formState: { errors },
+  } = methods;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,6 +135,9 @@ const EditProduct = () => {
       toast.error(getError(err));
     }
   };
+  const handleInputChange = (name, value) => {
+    setValue(name, value);
+  };
 
   return (
     <Layout title={`Edit Product ${productId}`}>
@@ -144,161 +149,127 @@ const EditProduct = () => {
           ) : error ? (
             <div className="alert-error">{error}</div>
           ) : (
-            <form
-              className="mx-auto max-w-screen-md"
-              onSubmit={handleSubmit(submitHandler)}
-            >
-              <h1 className="mb-4 text-xl">{`Edit Product ${productId}`}</h1>
+            <FormProvider {...methods}>
+              <form
+                className="mx-auto max-w-screen-md"
+                onSubmit={handleSubmit(submitHandler)}
+              >
+                <h1 className="mb-4 text-xl">{`Edit Product ${productId}`}</h1>
 
-              <div className="mb-4">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="name"
+                <InputField
+                  label={"Name"}
                   autoFocus
-                  {...register("name", {
-                    required: "Please enter name",
-                  })}
-                />
-                {errors.name && (
-                  <div className="text-red-500">{errors.name.message}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="slug">Slug</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="slug"
-                  {...register("slug", {
-                    required: "Please enter slug",
-                  })}
-                />
-                {errors.slug && (
-                  <div className="text-red-500">{errors.slug.message}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="price">Price</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="price"
-                  {...register("price", {
-                    required: "Please enter price",
-                  })}
-                />
-                {errors.price && (
-                  <div className="text-red-500">{errors.price.message}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="image">image</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="image"
-                  {...register("image", {
-                    required: "Please enter image",
-                  })}
-                />
-                {errors.image && (
-                  <div className="text-red-500">{errors.image.message}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="category">category</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="category"
-                  {...register("category", {
-                    required: "Please enter category",
-                  })}
-                />
-                {errors.category && (
-                  <div className="text-red-500">{errors.category.message}</div>
-                )}
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="imageFile">Upload image</label>
-                <input
-                  type="file"
-                  className="w-full"
-                  id="imageFile"
-                  onChange={uploadHandler}
+                  inputName={"name"}
+                  rules={{
+                    required: "Enter Product Name",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
                 />
 
-                {loadingUpload && <div>Uploading....</div>}
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="brand">brand</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="brand"
-                  {...register("brand", {
-                    required: "Please enter brand",
-                  })}
+                <InputField
+                  label={"Slug"}
+                  inputName={"slug"}
+                  rules={{
+                    required: "Enter Slug",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
                 />
-                {errors.brand && (
-                  <div className="text-red-500">{errors.brand.message}</div>
-                )}
-              </div>
 
-              <div className="mb-4">
-                <label htmlFor="countInStock">countInStock</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="countInStock"
-                  {...register("countInStock", {
-                    required: "Please enter countInStock",
-                  })}
+                <InputField
+                  label={"Price"}
+                  inputName={"price"}
+                  rules={{
+                    required: "Enter Product Price",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
                 />
-                {errors.countInStock && (
-                  <div className="text-red-500">
-                    {errors.countInStock.message}
-                  </div>
-                )}
-              </div>
 
-              <div className="mb-4">
-                <label htmlFor="countInStock">description</label>
-                <input
-                  type="text"
-                  className="w-full"
-                  id="description"
-                  {...register("description", {
-                    required: "Please enter description",
-                  })}
+                <InputField
+                  label={"Image"}
+                  inputName={"image"}
+                  rules={{
+                    required: "Enter Product Image",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
                 />
-                {errors.description && (
-                  <div className="text-red-500">
-                    {errors.description.message}
-                  </div>
-                )}
-              </div>
 
-              <div className="mb-4">
-                <button disabled={loadingUpload } className="primary-button">
-                  {loadingUpdate ? "Loading" : "Update"}
-                </button>
-              </div>
+                <InputField
+                  label={"Category"}
+                  inputName={"category"}
+                  rules={{
+                    required: "Enter Product Category",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
+                />
 
-              <div className="mb-4">
-                <Link className="default-button" href={`/admin/products`}>
-                  Back
-                </Link>
-              </div>
-            </form>
+                <div className="mb-4">
+                  <label htmlFor="imageFile">Upload image</label>
+                  <input
+                    type="file"
+                    className="w-full"
+                    id="imageFile"
+                    onChange={uploadHandler}
+                  />
+
+                  {loadingUpload && <div>Uploading....</div>}
+                </div>
+
+                <InputField
+                  label={"Brand"}
+                  inputName={"brand"}
+                  rules={{
+                    required: "Enter Brand",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
+                />
+
+                <InputField
+                  label={"countInStock"}
+                  inputName={"countInStock"}
+                  rules={{
+                    required: "Enter countInStock",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
+                />
+
+                <InputField
+                  label={"Description"}
+                  inputName={"description"}
+                  rules={{
+                    required: "Enter Description",
+                  }}
+                  type={"text"}
+                  onInputChange={handleInputChange}
+                  errors={errors}
+                />
+
+                <div className="mb-4">
+                  <button disabled={loadingUpload} className="primary-button">
+                    {loadingUpdate ? "Loading" : "Update"}
+                  </button>
+                </div>
+
+                <div className="mb-4">
+                  <Link className="default-button" href={`/admin/products`}>
+                    Back
+                  </Link>
+                </div>
+              </form>
+            </FormProvider>
           )}
         </div>
       </div>

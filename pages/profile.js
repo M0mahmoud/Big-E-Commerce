@@ -1,25 +1,38 @@
+import InputField from "@/components/InputField";
 import Layout from "@/components/Layout";
 import { getError } from "@/utils/error";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
+  // const {
+  //   handleSubmit,
+  //   register,
+  //   getValues,
+  //   setValue,
+  //   formState: { errors },
+  // } = useForm();
+
+  const methods = useForm();
   const {
     handleSubmit,
-    register,
-    getValues,
     setValue,
+    getValues,
     formState: { errors },
-  } = useForm();
+  } = methods;
 
   useEffect(() => {
     setValue("name", session?.user.name);
     setValue("email", session?.user.email);
   }, [session?.user, setValue]);
+
+  const handleInputChange = (name, value) => {
+    setValue(name, value);
+  };
 
   const submitHandler = async ({ name, email, password }) => {
     try {
@@ -44,90 +57,74 @@ const ProfilePage = () => {
 
   return (
     <Layout title="Profile">
-      <form
-        className="mx-auto max-w-screen-md"
-        onSubmit={handleSubmit(submitHandler)}
-      >
-        <h1 className="mb-4 text-xl">Update Profile</h1>
+      <FormProvider {...methods}>
+        <form
+          className="mx-auto max-w-screen-md"
+          onSubmit={handleSubmit(submitHandler)}
+        >
+          <h1 className="mb-4 text-xl">Update Profile</h1>
 
-        <div className="mb-4">
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            className="w-full"
-            id="name"
+          <InputField
+            label={"Name"}
             autoFocus
-            {...register("name", {
-              required: "Please enter name",
-            })}
+            inputName={"name"}
+            rules={{
+              required: "Enter Name",
+            }}
+            type={"text"}
+            onInputChange={handleInputChange}
+            errors={errors}
           />
-          {errors.name && (
-            <div className="text-red-500">{errors.name.message}</div>
-          )}
-        </div>
 
-        <div className="mb-4">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            className="w-full"
-            id="email"
-            {...register("email", {
-              required: "Please enter email",
+          <InputField
+            label={"Email"}
+            autoFocus
+            inputName={"email"}
+            rules={{
+              required: "Enter Email",
               pattern: {
                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/i,
-                message: "Please enter valid email",
+                message: "Please Enter Valid Email",
               },
-            })}
+            }}
+            type={"email"}
+            onInputChange={handleInputChange}
+            errors={errors}
           />
-          {errors.email && (
-            <div className="text-red-500">{errors.email.message}</div>
-          )}
-        </div>
 
-        <div className="mb-4">
-          <label htmlFor="password">Password</label>
-          <input
-            className="w-full"
-            type="password"
-            id="password"
-            {...register("password", {
-              minLength: { value: 6, message: "password is more than 5 chars" },
-            })}
+          <InputField
+            label={"Password"}
+            inputName={"password"}
+            rules={{
+              required: "Enter Password",
+              minLength: { value: 6, message: "Password Is More Than 5 Chars" },
+            }}
+            type={"password"}
+            onInputChange={handleInputChange}
+            errors={errors}
           />
-          {errors.password && (
-            <div className="text-red-500 ">{errors.password.message}</div>
-          )}
-        </div>
 
-        <div className="mb-4">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            className="w-full"
-            type="password"
-            id="confirmPassword"
-            {...register("confirmPassword", {
-              validate: (value) => value === getValues("password"),
+          <InputField
+            label={"Confirm Password"}
+            autoFocus
+            inputName={"confirmPassword"}
+            rules={{
+              required: "Please Enter Confirm Password",
               minLength: {
                 value: 6,
-                message: "confirm password is more than 5 chars",
+                message: "Confirm Password Is More Than 5 Chars",
               },
-            })}
+              validate: (value) => value === getValues("password"),
+            }}
+            type={"password"}
+            onInputChange={handleInputChange}
+            errors={errors}
           />
-          {errors.confirmPassword && (
-            <div className="text-red-500 ">
-              {errors.confirmPassword.message}
-            </div>
-          )}
-          {errors.confirmPassword &&
-            errors.confirmPassword.type === "validate" && (
-              <div className="text-red-500 ">Password do not match</div>
-            )}
-        </div>
-        <div className="mb-4">
-          <button className="primary-button">Update Profile</button>
-        </div>
-      </form>
+          <div className="mb-4">
+            <button className="primary-button">Update Profile</button>
+          </div>
+        </form>
+      </FormProvider>
     </Layout>
   );
 };

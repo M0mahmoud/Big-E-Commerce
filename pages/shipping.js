@@ -1,18 +1,19 @@
 import CheckoutWizard from "@/components/CheckoutWizard";
+import InputField from "@/components/InputField";
 import Layout from "@/components/Layout";
 import { store } from "@/store/store";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 const Shipping = () => {
+  const methods = useForm();
   const {
     handleSubmit,
-    register,
-    formState: { errors },
     setValue,
-  } = useForm();
+    formState: { errors },
+  } = methods;
   const { state, dispatch } = useContext(store);
   const { cart } = state;
   const { shippingAddress } = cart;
@@ -47,91 +48,85 @@ const Shipping = () => {
 
     router.push("/payment");
   };
+
+  const handleInputChange = (name, value) => {
+    setValue(name, value);
+  };
   return (
     <>
       <Layout title="Shipping Address">
         <CheckoutWizard activeStep={1} />
+        <FormProvider {...methods}>
+          <form
+            className="mx-auto max-w-screen-md"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <h1 className="mb-4 text-xl">Shipping Address</h1>
 
-        <form
-          className="mx-auto max-w-screen-md"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <h1 className="mb-4 text-xl">Shipping Address</h1>
-
-          <div className="mb-4">
-            <label htmlFor="fName">Full Name</label>
-            <input
-              {...register("fullName", {
-                required: "Enter full name",
-              })}
-              id="fName"
-              className="w-full"
+            <InputField
+              label={"Name"}
+              autoFocus
+              inputName={"name"}
+              rules={{
+                required: "Enter Name",
+              }}
+              type={"text"}
+              onInputChange={handleInputChange}
+              errors={errors}
             />
-            {errors.fullName && (
-              <div className="text-red-500">{errors.fullName.message}</div>
-            )}
-          </div>
 
-          <div className="mb-4">
-            <label htmlFor="address">Address</label>
-            <input
-              {...register("address", {
+            <InputField
+              label={"Address"}
+              autoFocus
+              inputName={"address"}
+              rules={{
                 required: "Enter Your Address",
-              })}
-              id="address"
-              className="w-full"
+              }}
+              type={"text"}
+              onInputChange={handleInputChange}
+              errors={errors}
             />
-            {errors.address && (
-              <div className="text-red-500">{errors.address.message}</div>
-            )}
-          </div>
 
-          <div className="mb-4">
-            <label htmlFor="city">City</label>
-            <input
-              id="city"
-              {...register("city", {
+            <InputField
+              label={"City"}
+              autoFocus
+              inputName={"city"}
+              rules={{
                 required: "Enter Your City",
-              })}
-              className="w-full"
+              }}
+              type={"text"}
+              onInputChange={handleInputChange}
+              errors={errors}
             />
-            {errors.city && (
-              <div className="text-red-500">{errors.city.message}</div>
-            )}
-          </div>
 
-          <div className="mb-4">
-            <label htmlFor="postalCode">Postal Code</label>
-            <input
-              className="w-full"
-              id="postalCode"
-              {...register("postalCode", {
-                required: "Please enter postal code",
-              })}
+            <InputField
+              label={"Postal Code"}
+              autoFocus
+              inputName={"postalCode"}
+              rules={{
+                required: "Enter Your Postal Code",
+              }}
+              type={"text"}
+              onInputChange={handleInputChange}
+              errors={errors}
             />
-            {errors.postalCode && (
-              <div className="text-red-500 ">{errors.postalCode.message}</div>
-            )}
-          </div>
 
-          <div className="mb-4">
-            <label htmlFor="country">Country</label>
-            <input
-              className="w-full"
-              id="country"
-              {...register("country", {
-                required: "Please enter country",
-              })}
+            <InputField
+              label={"Country"}
+              inputName={"country"}
+              rules={{
+                required: "Enter Country",
+              }}
+              type={"text"}
+              onInputChange={handleInputChange}
+              errors={errors}
             />
-            {errors.country && (
-              <div className="text-red-500 ">{errors.country.message}</div>
-            )}
-          </div>
 
-          <div className="mb-4 flex justify-between">
-            <button className="primary-button">Next</button>
-          </div>
-        </form>
+            <div className="mb-4 flex justify-between">
+              <button className="primary-button">Next</button>
+            </div>
+          </form>
+        </FormProvider>
       </Layout>
     </>
   );
